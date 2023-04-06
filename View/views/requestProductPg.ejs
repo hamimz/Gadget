@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+      <script src="./jQuery.js"></script>
+      <link rel="stylesheet" href="animate.min.css">
+      <link rel="shortcut icon" href="#" type="image/x-icon">
+      <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+      <link rel="stylesheet" href="forAllPages.css">
+      <title>Categories</title>
+</head>
+
+
+<body>
+      <%- include('navbar'); %>
+
+      
+      <h1 class="text-center mt-3">Can't find your desired product?</h1>
+      <h1 class="text-center"><u>Request for a Product</u></h1>
+
+      <div class="mt-5 mx-5 p-3" style="border: 2px solid black; border-radius: 5px;">
+            <h5>Write your description of the Product here:</h5>
+            <textarea id="productRequest" type="text" class="input-group mt-3 mb-4" placeholder="Type your request"></textarea>
+            <button class="btn btn-primary" onclick="sendRequest();">Submit</button>
+      </div>
+
+</body>
+</html>
+
+
+<script>
+      function sendRequest() 
+      {
+            let productRequest=$('#productRequest').val();
+
+            $.post
+            (
+                  '/productRequest',
+                  {
+                        productRequest: productRequest
+                  }
+
+            )
+            .then
+            (
+                  (res)=>
+                  {
+                        if(res===true)
+                        {
+                              alert("Your request has been sent!");
+                              location.reload();
+                        };
+
+                  }
+
+            );
+
+      };
+</script>

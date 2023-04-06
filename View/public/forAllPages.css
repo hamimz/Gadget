@@ -1,0 +1,38 @@
+.myBorder
+{
+      border-bottom: 2px solid black;
+}
+
+.landingPgBox
+{
+      border: 2px solid black;
+}
+
+.startBtn:hover
+{
+      background-color: greenyellow;
+      color: black;
+      border: 2px solid green;
+      font-size: 30px !important;
+}
+
+.card-body
+{
+      padding: 5px;
+}
+
+.card:hover
+{
+      transform: scale(1.2);
+      cursor: pointer;
+}
+
+.card
+{
+      transition: all .2s ease-in-out;
+}
+
+.redBorder
+{
+      border: 2px solid red;
+}

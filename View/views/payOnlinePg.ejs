@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+      <script src="./jQuery.js"></script>
+      <script src="./getUrlParameter.js"></script>
+      <link rel="stylesheet" href="animate.min.css">
+      <link rel="shortcut icon" href="#" type="image/x-icon">
+      <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+      <link rel="stylesheet" href="forAllPages.css">
+      <title>payOnline</title>
+</head>
+
+
+<body class="animate__animated animate__fadeIn">
+      <%- include('navbar'); %>
+
+      <h1 class="text-center my-4"><u>Pay Online</u></h1>
+
+      <div class="m-5 p-4 d-flex flex-column" style="border: 2px solid black; width: 50%;">
+            <div class="mb-2"><b>Name:</b> <input class="input-group" type="text"></div>
+            <div class="mb-2"><b>Address:</b> <input class="input-group" type="text"></div>
+            <div class="mb-2"><b>Phone number:</b> <input class="input-group" type="text"></div>
+            <div class="mb-2"><b>Transaction ID:</b> <input class="input-group" type="text"></div>
+
+            <div class="mt-4"><button class="btn btn-success" onclick="done();">Done</button></div>
+      </div>
+</body>
+
+
+<script>
+      function done() 
+      {
+            alert("Your request has been submitted successfully. Your product will be delivered within next two days. Thank you.");
+      };
+</script>

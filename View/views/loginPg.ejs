@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+      <script src="./jQuery.js"></script>
+      <link rel="stylesheet" href="animate.min.css">
+      <link rel="shortcut icon" href="#" type="image/x-icon">
+      <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+      <link rel="stylesheet" href="forAllPages.css">
+      <title>Login</title>
+</head>
+
+
+<!-- ------------------------------------------------------------------------- -->
+
+
+<body class="animate__animated animate__fadeIn">
+      <div class="d-flex justify-content-center m-5">
+            <div class="d-flex flex-column">
+                  <div class="text-center mb-2">
+                        <h1><u>Login</u></h1>
+                  </div>
+
+                  <div class="alert alert-primary invisible" role="alert" id="loginMsg"></div>
+            
+                  <div>
+                        <table>
+                              <tbody>
+                                    <tr>
+                                          <td>Email:</td>
+                                          <td><input type="email" id="email"></td>
+                                    </tr>
+            
+                                    <tr>
+                                          <td>Password:</td>
+                                          <td><input type="password" id="password"></td>
+                                    </tr>
+                              </tbody>
+                        </table>
+            
+                        <br>
+            
+                        <button class="btn btn-success" onclick="login();">Login</button>
+            
+                        &nbsp;&nbsp;
+            
+                        <a href="/register">Go to Register page</a>
+                  </div>
+            </div>
+      </div>
+</body>
+
+
+<script>
+      function login()
+      {
+            let email=$('#email').val();
+            let password=$('#password').val();
+
+
+            if(email==='' || password==='')
+            {
+                  showLoginMsg('Please fillup all the fields.');
+                  return;
+            };
+
+            
+            $.post
+            (
+                  '/login',
+                  {
+                        email: email,
+                        password: password
+                  }
+            )
+            .then
+            (
+                  (res)=>
+                  {
+                        if(res==='emailNotRegistered')
+                        {
+                              showLoginMsg('Email not registered. Please register.');
+                              return;
+                        };
+
+                        if(res==='pwdNotMatched')
+                        {
+                              showLoginMsg('Password did not match.');
+                              return;
+                        };
+
+                        document.cookie=`id_users=${res.id_users}`;
+                        document.cookie=`userName=${res.userName}`;
+                        location.reload();
+                        return;
+                  }
+
+            );
+
+      };
+</script>
+
+
+<script>
+      function showLoginMsg(msg)
+      {            
+            $('#loginMsg').removeClass('invisible');
+            $('#loginMsg').addClass('animate__animated animate__fadeIn');
+            $('#loginMsg').text(msg);
+            return;
+      };
+</script>

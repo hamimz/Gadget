@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+      <script src="./jQuery.js"></script>
+      <link rel="stylesheet" href="animate.min.css">
+      <link rel="shortcut icon" href="#" type="image/x-icon">
+      <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+      <link rel="stylesheet" href="forAllPages.css">
+      <title>Categories</title>
+</head>
+
+
+<%- include('./categoriesArr.ejs') %>
+
+
+<body>
+      <%- include('navbar'); %>
+
+
+      <h1 class="text-center mt-4"><u>Product Requests sent by customers</u></h1>
+      
+      <div class="m-5 p-5">
+            <% for(let i=0; i<=newArr.length-1; i++) { %>
+                  <div class="d-flex justify-content-between">
+                        <h3>(<%= i+1 %>) <b><%= newArr[i].userName %></b>: <%= newArr[i].productRequest %></h3>
+                  </div>
+                  <hr>
+            <% } %>
+      </div>
+
+</body>
+</html>

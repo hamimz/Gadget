@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+      <script src="./jQuery.js"></script>
+      <script src="./getUrlParameter.js"></script>
+      <link rel="stylesheet" href="animate.min.css">
+      <link rel="shortcut icon" href="#" type="image/x-icon">
+      <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+      <link rel="stylesheet" href="forAllPages.css">
+      <title>Cart</title>
+</head>
+
+
+<body class="animate__animated animate__fadeIn">
+      <%- include('navbar'); %>
+
+      <h1 class="text-center mt-4"><u>Pending Products</u></h1>
+
+      <div class="m-5 p-3" style="border: 2px solid black;">
+            <% for(let i=0; i<=pendingProducts.length-1; i++) { %>
+                  <div class="d-flex">
+                        <img class="mr-5" src="<%= pendingProducts[i].imgSrc %>" style="height: 150px; width: 120px;">
+                        <div class="d-flex flex-column justify-content-between">
+                              <div>
+                                    <h3><%= pendingProducts[i].name %></h3>
+                                    <h4>Tk <%= pendingProducts[i].price %></h4>
+                              </div>
+                              <div><button class="btn btn-primary" onclick="approveProduct('<%= pendingProducts[i].id_products %>');">Approve</button></div>
+                        </div>
+                  </div>
+                  <hr>
+            <% } %>
+      </div>
+</body>
+
+
+<script>
+      function approveProduct(id_products) 
+      {
+            $.post
+            (
+                  '/approveProduct',
+                  {
+                        id_products: id_products
+                  }
+            )
+            .then
+            (
+                  (res)=>
+                  {
+                        location.reload();
+                  }
+            );
+
+      };
+</script>

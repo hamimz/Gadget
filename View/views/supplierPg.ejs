@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+      <script src="./jQuery.js"></script>
+      <link rel="stylesheet" href="animate.min.css">
+      <link rel="shortcut icon" href="#" type="image/x-icon">
+      <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+      <link rel="stylesheet" href="forAllPages.css">
+      <link rel="stylesheet" href="adminPg.css">
+      <title>SupplierPg</title>
+</head>
+
+
+<%- include('./categoriesArr.ejs') %>
+
+
+<body>
+      <%- include('navbar'); %>
+
+      
+      <div class="container">
+            <h1 class="text-center m-5"><u>SupplierPg</u></h1>
+
+
+            <table>
+                  <tbody>
+                        <tr>
+                              <td>Name:</td>
+                              <td><input type="text" id="name"></td>
+                        </tr>
+                        <tr>
+                              <td>Price:</td>
+                              <td><input type="text" id="price"></td>
+                        </tr>
+                        <tr>
+                              <td>ImgSrc:</td>
+                              <td><input type="text" id="imgSrc"></td>
+                        </tr>
+                        <tr>
+                              <td>Category:</td>
+                              <td>
+                                    <select id="category">
+                                          <option value="null" selected>--- choose category ---</option>
+                                          <% for(let i=0; i<=categoriesArr.length-1; i++) { %>
+                                                <option value=<%= categoriesArr[i].id_categories %>><%= categoriesArr[i].name %></option>
+                                          <% } %>
+                                    </select>
+                              </td>
+                        </tr>
+                  </tbody>
+            </table>
+            
+            <br>
+            
+            <button class="btn btn-primary" onclick="addProduct();">Add product</button>
+
+            <br>
+
+            
+            <div id="productsTable" class="allTable my-5">
+                  <h3>Products Table:</h3>
+                  <table border="1" class="text-center">
+                        <thead>
+                              <tr>
+                                    <th>Sl</th>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>IsRecommended?</th>
+                                    <th>Remove product</th>
+                              </tr>
+                        </thead>
+                        <tbody>
+                              <% for(let i=0; i<=productsArr.length-1; i++) { %>
+                                    <tr>
+                                          <td><%= i+1 %></td>
+
+                                          <td><%= productsArr[i].name %></td>
+
+                                          <td><%= productsArr[i].price %></td>
+
+                                          <% if(productsArr[i].isRecommended===0) { %>
+                                                <td>No</td>
+                                          <% } else { %>
+                                                <td>Yes</td>
+                                          <% } %>
+
+                                          <td><button class="btn btn-danger" onclick="deleteProduct('<%= productsArr[i].id_products %>');">Remove</button></td>
+                                    </tr>
+                              <% } %>
+                        </tbody>
+                  </table>
+            </div>
+
+      </div>
+</body>
+</html>
+
+
+<script>
+      function addProduct()
+      {
+            let name=$('#name').val();
+            let price=$('#price').val();
+            let imgSrc=$('#imgSrc').val();
+            let id_categories=$('#category').val();
+
+
+            if(name==='' || price==='' || imgSrc==='' || id_categories==="null")
+            {
+                  alert("Please fillup all the fields.");
+                  return;
+            };
+
+            $.post
+            (
+                  '/addProduct',
+                  {
+                        name: name,
+                        price: price,
+                        imgSrc: imgSrc,
+                        id_categories: id_categories
+                  }
+
+            )
+            .then
+            (
+                  (res)=>
+                  {
+                        if(res===true) 
+                        {
+                              alert("Product added successfully.");
+                              location.reload();
+                        };
+
+                  }
+                  
+            );
+
+      };
+</script>
+
+
+<script>
+      function deleteProduct(id_products)
+      {
+            $.post
+            (
+                  '/deleteProduct',
+                  {
+                        id_products: id_products
+                  }
+
+            )
+            .then
+            (
+                  (res)=>
+                  {
+                        if(res===true) 
+                        {
+                              alert("Product deleted.");
+                              location.reload();
+                        };
+
+                  }
+
+            );
+
+      };
+</script>

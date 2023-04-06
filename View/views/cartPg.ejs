@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+      <script src="./jQuery.js"></script>
+      <script src="./getUrlParameter.js"></script>
+      <link rel="stylesheet" href="animate.min.css">
+      <link rel="shortcut icon" href="#" type="image/x-icon">
+      <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+      <link rel="stylesheet" href="forAllPages.css">
+      <title>Cart</title>
+</head>
+
+
+<body class="animate__animated animate__fadeIn">
+      <%- include('navbar'); %>
+
+      <h1 class="text-center mt-4"><u>Cart</u></h1>
+
+      <div class="m-5 px-5">
+            <% for(let i=0; i<=newArr.length-1; i++) { %> 
+                  <hr>
+                  <div class="d-flex justify-content-around">
+                        <h4><%= i+1 %>. <%= newArr[i].name %> - Tk <%= newArr[i].price %></h4>
+                        <div><button class="btn btn-danger" onclick="removeItem('<%= newArr[i].id_products %>');">Remove from Cart</button></div>
+                  </div>
+            <% }; %>
+
+            <hr style="border: 1px solid black;">
+
+            <div class="d-flex justify-content-between">
+                  <h4>Total Items: <%= newArr.length %></h4>
+                  <h4>Total Price: Tk <%= totalPrice %></h4>
+            </div>
+            
+            <hr style="border: 1px solid black;">
+            
+            <div class="d-flex mt-4">
+                  <h4 class="mr-3">Choose your preferred payment method:</h4>
+                  <div><button class="btn btn-dark mr-3" onclick="location.href='/payOnDelivery'">Pay on Delivery</button></div>
+                  <div><button class="btn btn-dark" onclick="location.href='/payOnline'">Pay Online</button></div>
+            </div>
+      </div>
+</body>
+
+
+<script>
+      function removeItem(id_products) 
+      {
+            $.post
+            (
+                  '/removeItem',
+                  {
+                        id_products: id_products
+                  }
+            )
+            .then
+            (
+                  (res)=>
+                  {
+                        location.reload();
+                  }
+
+            );
+
+      };
+</script>

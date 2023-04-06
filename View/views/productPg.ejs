@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+      <script src="./jQuery.js"></script>
+      <script src="./getUrlParameter.js"></script>
+      <link rel="stylesheet" href="animate.min.css">
+      <link rel="shortcut icon" href="#" type="image/x-icon">
+      <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+      <link rel="stylesheet" href="forAllPages.css">
+      <title>Product</title>
+</head>
+
+
+<%- include('./categoriesArr.ejs') %>
+
+
+<body class="animate__animated animate__fadeIn">
+      <%- include('navbar'); %>
+
+      
+      <div class="container">
+            <div class="row mt-5 mb-3">
+
+                  <div class="col-4 d-flex justify-content-center">
+                        <div style="width: 310px; height: auto;">
+                              <img class="card-img-top" src=<%= product.imgSrc %> alt="Product image here">
+                        </div>
+                  </div>
+
+                  <div class="col-8">
+                        <h3><b>Name:</b> <%= product.name %></h3>
+                        <h3><b>Price: </b>Tk <%= product.price %></h3>
+
+                        <% if(reviews === false) { %>
+                              <h3><b>Average Rating:</b> <span class="text-muted">(no ratings yet)</span></h3>
+                        <% } else { %>
+                              <h3><b>Average Rating:</b> <%= avgRating.toFixed(2) %> <span class="text-muted">(total reviews is <%= reviews.length %>)</span></h3>
+                        <% } %>
+
+                        <button class="btn btn-success" onclick="addToCart();">Add to Cart</button>
+
+                        
+                        <div class="my-4 py-3 px-2" style="border: 1px solid black; border-radius: 5px;">
+                              <h5>Add a Review:</h5>
+                              <div class="d-flex mt-2 mb-3">
+                                    <input id="comment" type="text" class="input-group" placeholder="Type your review">
+
+                                    &nbsp;&nbsp;
+
+                                    <select id="rating">
+                                          <option value='null'>Rating</option>
+                                          <option value=1>1</option>
+                                          <option value=2>2</option>
+                                          <option value=3>3</option>
+                                          <option value=4>4</option>
+                                          <option value=5>5</option>
+                                    </select>
+                              </div>
+                              
+                              <button class="btn btn-primary" onclick="submitReview('<%= product.id_products %>');">Submit</button>
+                              &nbsp;&nbsp;
+                              <button class="btn btn-light" onclick="deleteReview('<%= product.id_products %>');">Delete my reviews</button>
+                        </div>
+
+
+                        <div class="my-4 py-3 px-2" style="border: 1px solid black; border-radius: 5px;">
+                              <h3>Reviews:</h3>
+                              <br>
+
+                              <% for(let i=0; i<=reviews.length-1; i++) { %>
+                                    <div class="d-flex justify-content-between border-bottom mb-4">
+                                          <div class="d-flex">
+                                                <h5><b><%= reviews[i].userName %>:</b></h5>
+                                                &nbsp;
+                                                <h5><%= reviews[i].comment %></h5>
+                                                &nbsp;
+                                                <h5 class="text-info">[<%= reviews[i].rating %>]</h5>
+                                                &nbsp;
+                                          </div>
+                                          
+                                          <%
+                                                var today=new Date(reviews[i].date);
+                                                var dd=String(today.getDate()).padStart(2, '0');
+                                                var mm=String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                                                var yyyy=today.getFullYear();
+                                                today=`${dd}/${mm}/${yyyy}`;
+                                          %>
+                                          
+                                          <div class="text-muted"><%= today %></div>
+                                    </div>
+                              <% } %>
+                        </div>
+                        
+                  </div>
+
+            </div>
+      </div>
+</body>
+</html>
+
+
+<script>
+      function addToCart() 
+      {
+            let id_products=getUrlParameter('id_products');
+
+            alert("This product has been added to cart.");
+
+            $.post
+            (
+                  '/addToCart',
+                  {
+                        id_products: id_products
+                  }
+
+            );
+
+      };
+</script>
+
+
+<script>
+      function submitReview(id_products)
+      {
+            let comment=$('#comment').val();
+            let rating=$('#rating').val();
+
+
+            if(rating==='null')
+            {
+                  alert("Please select a rating.");
+                  return;
+            };
+
+            $.post
+            (
+                  '/submitReview',
+                  {
+                        id_products: id_products,
+                        comment: comment,
+                        rating: rating,
+                  }
+
+            )
+            .then
+            (
+                  (res)=>
+                  {
+                        if(res===true)
+                        {
+                              alert("Thanks for your review!");
+                              location.reload();
+                        };
+
+                  }
+
+            );
+
+      };
+</script>
+
+
+<script>
+      function deleteReview(id_products)
+      {
+            $.post
+            (
+                  '/deleteReview',
+                  {
+                        id_products: id_products,
+                  }
+
+            )
+            .then
+            (
+                  (res)=>
+                  {
+                        alert("Deleting review.");
+                        if(res===true) location.reload();
+                  }
+
+            );
+
+      };
+</script>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+      <script src="./jQuery.js"></script>
+      <link rel="stylesheet" href="animate.min.css">
+      <link rel="shortcut icon" href="#" type="image/x-icon">
+      <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+      <link rel="stylesheet" href="forAllPages.css">
+      <link rel="stylesheet" href="adminPg.css">
+      <title>AdminPg</title>
+</head>
+
+<body>
+      <%- include('navbar'); %>
+
+      
+      <div class="container">
+            <h1 class="text-center m-5"><u>AdminPg</u></h1>
+
+            <div>
+                  <button class="btn btn-primary" onclick="showProducts();">Products</button>
+                  &nbsp;&nbsp;
+                  <button class="btn btn-primary" onclick="showUsers();">Users</button>
+                  &nbsp;&nbsp;
+                  <button class="btn btn-primary" onclick="location.href='/adminProductRequests'">See Product Requests from Customers</button>
+                  &nbsp;&nbsp;
+                  <button class="btn btn-primary" onclick="location.href='/pendingProducts'">Approve New Products added by Suppliers</button>
+                  <br><br>
+                  <button class="btn btn-primary" onclick="location.href='/showPromotionRequests'">See Promotion Requests from Suppliers</button>
+            </div>
+
+            
+            <div id="productsTable" class="allTable my-5">
+                  <h3>Products Table:</h3>
+                  <table border="1" class="text-center">
+                        <thead>
+                              <tr>
+                                    <th>Sl</th>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>IsRecommended?</th>
+                                    <th>Recommend It</th>
+                                    <th>Delete It</th>
+                              </tr>
+                        </thead>
+                        <tbody>
+                              <% for(let i=0; i<=productsArr.length-1; i++) { %>
+                                    <tr>
+                                          <td><%= i+1 %></td>
+
+                                          <td><%= productsArr[i].name %></td>
+
+                                          <td><%= productsArr[i].price %></td>
+
+                                          <% if(productsArr[i].isRecommended===0) { %>
+                                                <td>No</td>
+                                          <% } else { %>
+                                                <td>Yes</td>
+                                          <% } %>
+                                          
+                                          <td>
+                                                <button class="btn btn-success mb-1" onclick="recommendProduct('<%= productsArr[i].id_products %>')">Recommend</button>
+                                                <br>
+                                                <button class="btn btn-warning" onclick="unRecommendProduct('<%= productsArr[i].id_products %>')">UnRecommend</button>
+                                          </td>
+
+                                          <td><button class="btn btn-danger" onclick="deleteProduct('<%= productsArr[i].id_products %>');">Delete</button></td>
+                                    </tr>
+                              <% } %>
+                        </tbody>
+                  </table>
+            </div>
+
+
+            <div id="usersTable" class="allTable my-5">
+                  <h3>Users Table:</h3>
+                  <table border="1" class="text-center">
+                        <thead>
+                              <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>UserType</th>
+                                    <th>Remove User</th>
+                              </tr>
+                        </thead>
+                        <tbody>
+                              <% for(let i=0; i<=usersArr.length-1; i++) { %>
+                                    <tr>
+                                          <td><%= usersArr[i].name %></td>
+                                          <td><%= usersArr[i].email %></td>
+                                          <td><%= usersArr[i].userType %></td>
+                                          <td><button class="btn btn-danger" onclick="deleteUser('<%= usersArr[i].id_users %>');">Remove</button></td>
+                                    </tr>
+                              <% } %>
+                        </tbody>
+                  </table>
+            </div>
+
+      </div>
+</body>
+</html>
+
+
+<script>
+      showProducts();
+
+      function showUsers()
+      {
+            $(".allTable").attr("hidden" , true);
+            $("#usersTable").attr("hidden" , false);
+      };
+
+      function showProducts()
+      {
+            $(".allTable").attr("hidden" , true);
+            $("#productsTable").attr("hidden" , false);
+      };
+</script>
+
+
+<script>
+      function recommendProduct(id_products)
+      {
+            $.post
+            (
+                  '/recommendProduct',
+                  {
+                        id_products
+                  }
+
+            )
+            .then
+            (
+                  (res)=>
+                  {
+                        if(res===true)
+                        {
+                              alert("Added to recommended products suucessfully!");
+                              location.reload();
+                        }
+
+                  }
+
+            );
+
+      };
+
+      function unRecommendProduct(id_products)
+      {
+            $.post
+            (
+                  '/unRecommendProduct',
+                  {
+                        id_products
+                  }
+
+            )
+            .then
+            (
+                  (res)=>
+                  {
+                        if(res===true)
+                        {
+                              location.reload();
+                        }
+
+                  }
+
+            );
+
+      };
+
+      function deleteProduct(id_products)
+      {
+            $.post
+            (
+                  '/deleteProduct',
+                  {
+                        id_products
+                  }
+
+            )
+            .then
+            (
+                  (res)=>
+                  {
+                        if(res===true)
+                        {
+                              alert("Deleting product.");
+                              location.reload();
+                        };
+
+                  }
+
+            );
+
+      };
+</script>
+
+
+<script>
+      function deleteUser(id_users)
+      {
+            $.post
+            (
+                  '/deleteUser',
+                  {
+                        id_users
+                  }
+
+            )
+            .then
+            (
+                  (res)=>
+                  {
+                        if(res===true)
+                        {
+                              alert("Deleting user.");
+                              location.reload();
+                        };
+
+                        if(res===false)
+                        {
+                              alert("Not allowed.");
+                              alert("You cannot delete yourself :')");
+                        };
+
+                  }
+
+            );
+
+      };
+</script>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+      <script src="./jQuery.js"></script>
+      <link rel="stylesheet" href="animate.min.css">
+      <link rel="shortcut icon" href="#" type="image/x-icon">
+      <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+      <link rel="stylesheet" href="forAllPages.css">
+      <title>Landing Page</title>
+</head>
+
+
+<body class="animate__animated animate__bounceIn animate__slow">
+      <div class="container">
+            <div class="row justify-content-center">
+                  <div class="col-12 mt-4 mb-5">
+                        <h1 class="text-center"><u>Landing Page</u></h1>
+                  </div>
+
+                  <div class="col-8">
+                        <div class="landingPgBox rounded px-4 pb-3 mb-3">
+                              <h1 class="text-center m-4 animate__animated animate__lightSpeedInLeft animate__delay-2s">Welcome to Gadget Review System</h1>
+                              <div class="animate__animated animate__lightSpeedInLeft animate__delay-3s">
+                                    <h2><u>Created by:</u></h2>
+                                    <h3>
+                                          <ul>
+                                                <li>Ha-mim Ahmad (20101286)</li>
+                                          </ul>
+                                    </h3>
+                              </div>
+                        </div>
+
+                        <button class="btn btn-success myBig startBtn" onmouseover="startBtnHoverOn();" onmouseleave="startBtnHoverOff();" onclick="location.href='/login'">Start</button>
+                  </div>
+            </div>
+      </div>
+</body>
+</html>
+
+
+<script>
+      function startBtnHoverOn()
+      {
+            $('.startBtn').addClass('animate__animated animate__infinite animate__wobble');
+      };
+
+      function startBtnHoverOff()
+      {
+            $('.startBtn').removeClass('animate__animated animate__infinite animate__wobble');
+      };
+</script>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+      <script src="./jQuery.js"></script>
+      <link rel="stylesheet" href="animate.min.css">
+      <link rel="shortcut icon" href="#" type="image/x-icon">
+      <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+      <link rel="stylesheet" href="forAllPages.css">
+      <title>ProductsList</title>
+</head>
+
+
+<%- include('./categoriesArr.ejs') %>
+
+
+<body class="animate__animated animate__fadeIn">
+      <%- include('navbar'); %>
+
+      
+      <div class="container">
+            <h1 class="text-center m-5 mb-5 px-5"><u><%= categoriesArr[id_categories-1].name %></u></h1>
+            
+            <h4 class="mb-5">Checkout these products</h4>
+
+            <div class="row mb-3">
+                  <% for(let i=0; i<=productsList.length-1; i++) { %>
+                        <div>
+                              <div class="card mx-5 my-2 shadow" style="width: 10rem; height: auto;" onclick="location.href='/product?id_products=<%= productsList[i].id_products %>';">
+                                    <img class="card-img-top" src=<%= productsList[i].imgSrc %> alt="Product image here">
+
+                                    <div class="card-body myBorder rounded">
+                                          <div class=""><b><%= productsList[i].name %></b></div>
+                                          <div class="">Tk <%= productsList[i].price %></div>
+                                    </div>
+                              </div>
+                        </div>
+                  <% } %>
+            </div>
+
+      </div>
+</body>
+</html>
